@@ -13,6 +13,40 @@ function cssVar(name) {
   return getComputedStyle(document.body).getPropertyValue(name).trim();
 }
 
+/* ----------------------- time-input auto-colon ----------------------- */
+// Mobile numeric keypads have no ":" key, so on the time fields we let users
+// type digits and insert the colons for them, grouping from the right:
+//   "330" -> "3:30"  (maxGroups 2, pace)   "33000" -> "3:30:00" (maxGroups 3).
+// A "." means the user is entering decimal minutes (e.g. "8.5"), which
+// parseToMinutes still accepts — leave those untouched. Already-colon'd values
+// reformat to themselves (idempotent), so programmatic syncs are unaffected.
+function groupClock(value, maxGroups) {
+  if (value.includes(".")) return value;
+  let digits = value.replace(/\D/g, "");
+  if (digits === "") return "";
+  digits = digits.slice(0, maxGroups * 2); // ignore overflow digits
+  const groups = [];
+  let i = digits.length;
+  while (i > 0 && groups.length < maxGroups - 1) {
+    groups.unshift(digits.slice(Math.max(0, i - 2), i));
+    i -= 2;
+  }
+  if (i > 0) groups.unshift(digits.slice(0, i)); // leftmost holds the remainder
+  return groups.join(":");
+}
+
+// Registered BEFORE each field's value-reading listener so they see the colons.
+function attachClock(el, maxGroups) {
+  el.addEventListener("input", () => {
+    const formatted = groupClock(el.value, maxGroups);
+    if (formatted !== el.value) {
+      el.value = formatted;
+      // Caret to end: these fields are short and typed left-to-right.
+      el.setSelectionRange(formatted.length, formatted.length);
+    }
+  });
+}
+
 /* ----------------------------- tabs ----------------------------- */
 
 document.querySelectorAll(".tab-btn").forEach((btn) => {
@@ -71,6 +105,10 @@ function updateReadout(paceMin) {
 }
 
 let syncing = false;
+
+// Auto-insert colons as digits are typed (must run before the readers below).
+attachClock(paceInput, 2); // m:ss
+attachClock(timeInput, 3); // h:mm:ss
 
 paceInput.addEventListener("input", () => {
   if (syncing) return;
@@ -258,6 +296,11 @@ document.querySelectorAll('input[name="mode"]').forEach((r) => {
     computeRest();
   });
 });
+
+// Auto-insert colons on the time fields (doneDist is a real decimal, so skip it).
+attachClock(donePace, 2); // m:ss
+attachClock(doneElapsed, 3); // h:mm:ss
+attachClock(goalTime, 3); // h:mm:ss
 
 [doneDist, donePace, doneElapsed, goalTime].forEach((el) =>
   el.addEventListener("input", computeRest)
