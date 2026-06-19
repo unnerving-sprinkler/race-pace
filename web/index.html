@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Race Pace Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="theme-picker">
+    <label for="themeSelect">Theme</label>
+    <select id="themeSelect"></select>
+  </div>
+
+  <header>
+    <h1 id="appTitle">🏃 Race Pace Calculator</h1>
+    <p class="subtitle" id="appSubtitle">Any distance &middot; pace in minutes / mile</p>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="convert">Pace &harr; Finish Time</button>
+    <button class="tab-btn" data-tab="rest">Negative Split Planner</button>
+  </nav>
+
+  <div class="distance-bar">
+    <label for="distInput">Race distance (miles)</label>
+    <input id="distInput" type="text" inputmode="decimal" value="26.2" />
+    <span class="dist-note">Defaults to 26.2 mi &mdash; set it to your race (5K &asymp; 3.1, 10K &asymp; 6.2, half &asymp; 13.1) or adjust if your course runs long.</span>
+  </div>
+
+  <!-- ====================== TAB 1 ====================== -->
+  <section id="convert" class="tab-panel active">
+    <div class="grid">
+      <div class="card">
+        <h2>Convert</h2>
+        <div class="field">
+          <label for="paceInput">Pace (min / mile)</label>
+          <input id="paceInput" type="text" inputmode="decimal" placeholder="e.g. 8:00 or 8.5" />
+        </div>
+        <div class="swap">↕</div>
+        <div class="field">
+          <label for="timeInput">Finish time (hh:mm:ss)</label>
+          <input id="timeInput" type="text" inputmode="decimal" placeholder="e.g. 3:30:00" />
+        </div>
+        <p class="hint">Edit either box &mdash; the other updates instantly.</p>
+
+        <div class="readout">
+          <div><span class="readout-label">Pace</span><span id="readPace">&mdash;</span></div>
+          <div><span class="readout-label">Finish</span><span id="readTime">&mdash;</span></div>
+          <div><span class="readout-label">Avg speed</span><span id="readSpeed">&mdash;</span></div>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <h2>Pace vs. Finish Time</h2>
+        <p class="hint">Move your cursor over the graph to read off any pace / finish-time pair.</p>
+        <div class="chart-wrap">
+          <canvas id="paceChart"></canvas>
+        </div>
+        <div id="hoverReadout" class="hover-readout">Hover the graph&hellip;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== TAB 2 ====================== -->
+  <section id="rest" class="tab-panel">
+    <div class="grid">
+      <div class="card">
+        <h2>Where am I now?</h2>
+        <div class="field">
+          <label for="doneDist">Distance completed (miles)</label>
+          <input id="doneDist" type="text" inputmode="decimal" placeholder="e.g. 13.1" />
+        </div>
+
+        <div class="field">
+          <label>How are you tracking progress so far?</label>
+          <div class="radio-row">
+            <label class="radio"><input type="radio" name="mode" value="pace" checked /> Average pace</label>
+            <label class="radio"><input type="radio" name="mode" value="elapsed" /> Elapsed time</label>
+          </div>
+        </div>
+
+        <div class="field" id="paceField">
+          <label for="donePace">Current avg pace (min / mile)</label>
+          <input id="donePace" type="text" inputmode="decimal" placeholder="e.g. 8:15" />
+        </div>
+
+        <div class="field hidden" id="elapsedField">
+          <label for="doneElapsed">Elapsed time so far (hh:mm:ss)</label>
+          <input id="doneElapsed" type="text" inputmode="decimal" placeholder="e.g. 1:48:00" />
+        </div>
+
+        <div class="field">
+          <label for="goalTime">Goal finish time (hh:mm:ss)</label>
+          <input id="goalTime" type="text" inputmode="decimal" placeholder="e.g. 3:30:00" />
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>What you need to run</h2>
+        <div id="restResult" class="big-result muted">Fill in the fields to see your required pace.</div>
+        <table class="result-table" id="restTable" hidden>
+          <tbody>
+            <tr><td>Completed</td><td id="rDone">&mdash;</td></tr>
+            <tr><td>Remaining</td><td id="rRemain">&mdash;</td></tr>
+            <tr><td>Time used so far</td><td id="rUsed">&mdash;</td></tr>
+            <tr><td>Time left to goal</td><td id="rLeft">&mdash;</td></tr>
+            <tr class="highlight"><td>Required pace (rest)</td><td id="rPace">&mdash;</td></tr>
+            <tr><td>Pace so far</td><td id="rSoFar">&mdash;</td></tr>
+            <tr><td>Projected finish at current pace</td><td id="rProj">&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>All calculations run in your browser. Distance defaults to 26.2 mi.</p>
+  </footer>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="calc.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

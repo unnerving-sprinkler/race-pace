@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Local env overrides (commit .env.example, not .env)
+.env
+
+# Logs / editor cruft
+*.log
+node_modules/

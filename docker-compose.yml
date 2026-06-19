@@ -1,0 +1,11 @@
+services:
+  race-pace:
+    build: .
+    container_name: race-pace
+    # Host port is configurable: set PORT (e.g. in .env or `PORT=9000 docker compose up`).
+    ports:
+      - "${PORT:-8080}:80"
+    restart: unless-stopped
+    # Live-edit: mount the web dir so changes to html/js/css show on refresh.
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
