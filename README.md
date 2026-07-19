@@ -1,5 +1,7 @@
 # Race Pace Calculator
 
+[![CI](https://github.com/unnerving-sprinkler/race-pace/actions/workflows/ci.yml/badge.svg)](https://github.com/unnerving-sprinkler/race-pace/actions/workflows/ci.yml)
+
 A small web app for working with running paces (minutes / mile) over any race
 distance. Defaults to 26.2 mi, but works for a 5K, 10K, half, ultra, or a course
 that runs long.
@@ -17,9 +19,9 @@ editable (set it to your race, or bump it up if your course runs long, e.g.
   the cursor over the chart to read off any pace / finish-time pair with a
   crosshair (correct even when the browser is zoomed).
 
-**Themes** — a **Theme** dropdown in the top right reskins the whole app (and the
-chart). Includes 🍝 Grandma's Pasta, a red-checkered-tablecloth trattoria look.
-Choice is remembered, and more themes can be added later.
+**Light / dark themes** — a **Theme** dropdown in the top right switches the
+whole app (chart included) between dark and light. The first visit follows your
+OS preference; an explicit choice is remembered.
 
 **Tab 2 — Negative Split Planner**
 - Enter how far you've run, your current pace *or* elapsed time, and a goal
@@ -80,3 +82,7 @@ docker run --rm -v "$PWD":/app -w /app node:20-alpine node test/calc.test.js
     ├── app.js                   # DOM wiring, chart, theme
     └── vendor/chart.umd.min.js  # Chart.js (vendored, no CDN at runtime)
 ```
+
+## License
+
+[MIT](LICENSE)

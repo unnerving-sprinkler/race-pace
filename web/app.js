@@ -396,27 +396,26 @@ const appSubtitle = document.getElementById("appSubtitle");
 // Add a theme by appending an entry here — the dropdown and styling pick it up
 // automatically. `bodyClass` is the CSS class toggled on <body> (empty = none).
 const THEMES = {
-  default: {
-    label: "🏃 Default",
+  dark: {
+    label: "🌙 Dark",
     bodyClass: "",
     title: "🏃 Race Pace Calculator",
     subtitle: "Any distance &middot; pace in minutes / mile",
   },
-  pasta: {
-    label: "🍝 Grandma's Pasta",
-    bodyClass: "theme-pasta",
-    title: "🍝 Grandma's Pasta Run 🍝",
-    subtitle:
-      "🍝 Carbo-load &middot; al dente pacing &middot; pure pasta 🍝",
+  light: {
+    label: "☀️ Light",
+    bodyClass: "theme-light",
+    title: "🏃 Race Pace Calculator",
+    subtitle: "Any distance &middot; pace in minutes / mile",
   },
 };
 
 // Legacy localStorage values from older builds.
-const THEME_ALIASES = { grandmas: "pasta" };
+const THEME_ALIASES = { default: "dark", grandmas: "dark", pasta: "dark" };
 
 function applyTheme(name) {
   name = THEME_ALIASES[name] || name;
-  if (!THEMES[name]) name = "default";
+  if (!THEMES[name]) name = "dark";
 
   // Clear every theme's body class, then apply the chosen one.
   for (const key in THEMES) {
@@ -445,11 +444,15 @@ for (const [key, t] of Object.entries(THEMES)) {
 }
 themeSelect.addEventListener("change", () => applyTheme(themeSelect.value));
 
-let savedTheme = "default";
+// Saved choice wins; otherwise follow the OS color-scheme preference.
+let savedTheme = null;
 try {
-  savedTheme = localStorage.getItem("mp-theme") || "default";
+  savedTheme = localStorage.getItem("mp-theme");
 } catch (e) {
   /* ignore */
+}
+if (!savedTheme) {
+  savedTheme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 }
 applyTheme(savedTheme);
 

@@ -1,5 +1,7 @@
+/* Dark (default) */
 :root {
   --bg: #0f1419;
+  --bg-glow: #182135;
   --panel: #1a2230;
   --panel-2: #222c3c;
   --accent: #4cc9f0;
@@ -11,73 +13,20 @@
   --bad: #f87171;
 }
 
-/* 🍝 Grandma's Pasta — red-checkered trattoria tablecloth, basil + tomato + parmesan. */
-body.theme-pasta {
-  --bg: #c8102e;            /* tomato sauce */
-  --panel: #fdf6e3;         /* fresh pasta / parmesan cream */
-  --panel-2: #f6ecce;
-  --accent: #c8102e;        /* tomato */
-  --accent-2: #2e7d32;      /* basil */
-  --text: #3a241a;          /* roasted garlic */
-  --muted: #8a6d57;
-  --border: #e3d3a8;
-  --good: #2e7d32;
-  --bad: #c8102e;
-  color: var(--text);
-  background-color: #c8102e;
-  background-image:
-    linear-gradient(45deg, rgba(255, 255, 255, 0.22) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.22) 75%),
-    linear-gradient(45deg, rgba(255, 255, 255, 0.22) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.22) 75%);
-  background-size: 64px 64px;
-  background-position: 0 0, 32px 32px;
-  background-attachment: fixed;
-}
-
-/* Header becomes a cream "pasta plate" with a basil dashed rim. */
-body.theme-pasta header {
-  background: rgba(253, 246, 227, 0.95);
-  border: 3px dashed #2e7d32;
-  border-radius: 20px;
-  max-width: 760px;
-  margin: 18px auto 0;
-  padding: 16px 24px 22px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-}
-/* VERY pasta: a noodle banner above and below the title. */
-body.theme-pasta header h1::before,
-body.theme-pasta header h1::after { content: " 🍝 "; }
-body.theme-pasta header::before {
-  content: "🍝🍜🍝🍜🍝🍜🍝🍜🍝🍜🍝🍜🍝🍜🍝🍜🍝🍜";
-  display: block;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  overflow: hidden;
-  white-space: nowrap;
-  margin-bottom: 8px;
-}
-/* A simmering pot of pasta emojis pinned along the bottom of the page. */
-body.theme-pasta::after {
-  content: "🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝 🍝";
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 1.3rem;
-  letter-spacing: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  background: rgba(46, 125, 50, 0.92);
-  padding: 4px 0;
-  pointer-events: none;
-}
-body.theme-pasta footer { color: #fff5e1; margin-bottom: 40px; }
-
-/* Inputs need a light fill in pasta mode (default --bg is tomato red). */
-body.theme-pasta .field input[type="text"],
-body.theme-pasta .distance-bar input,
-body.theme-pasta .readout {
-  background: #fffdf7;
+/* Light */
+body.theme-light {
+  --bg: #f2f4f8;
+  --bg-glow: #e2e9f4;
+  --panel: #ffffff;
+  --panel-2: #eef1f6;
+  --accent: #0e7490;
+  --accent-2: #be185d;
+  --text: #1c2430;
+  --muted: #5b6675;
+  --border: #d7dde6;
+  --good: #15803d;
+  --bad: #dc2626;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -85,8 +34,9 @@ body.theme-pasta .readout {
 body {
   margin: 0;
   position: relative;
+  color-scheme: dark;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: radial-gradient(1200px 600px at 70% -10%, #182135 0%, var(--bg) 60%);
+  background: radial-gradient(1200px 600px at 70% -10%, var(--bg-glow) 0%, var(--bg) 60%);
   color: var(--text);
   min-height: 100vh;
   padding: 0 16px 48px;
